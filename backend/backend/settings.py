@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,9 +41,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     # 3rd party
     'rest_framework',
+    'rest_framework.authtoken',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
 
     # local
     'accounts.apps.AccountsConfig',
@@ -129,3 +140,23 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ],
+}
+
+SITE_ID = 1
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
+EMAIL_PORT = 587
