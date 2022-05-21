@@ -183,3 +183,7 @@ EMAIL_PORT = 587
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'http://localhost:8000/api/v1/dj-rest-auth/login/'
 LOGIN_URL = 'http://localhost:8000/api/v1/dj-rest-auth/login/'
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserProfileSerializer'
+}
