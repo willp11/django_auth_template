@@ -6,8 +6,8 @@ function App() {
   return (
     <div className="App">
       <h1>Django Auth Template</h1>
-      <Link to='/login'>Login</Link> <br/>
-      <Link to='/register'>Register</Link>
+      <Link to='/register'>Register</Link> <br />
+      <Link to='/login'>Login</Link>
     </div>
   );
 }
