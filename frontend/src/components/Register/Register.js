@@ -1,13 +1,27 @@
 import './Register.css';
 import * as Yup from 'yup';
 import {useFormik} from 'formik';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import authSlice from "../../store/slices/auth";
 
 const Register = () => {
 
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const token = useSelector((state) => state.auth.token);
+
+    useEffect(()=>{
+        if (token !== null) {
+            return navigate('/profile');
+        }
+    }, [token]);
 
     const handleRegister = (username, email, password, passwordConfirmation) => {
         const data = {
@@ -18,8 +32,13 @@ const Register = () => {
         };
         axios.post('http://localhost:8000/api/v1/dj-rest-auth/registration/', data)
             .then((res) => {
-                console.log(res);
+                dispatch(
+                    authSlice.actions.setAuthToken({
+                        token: res.data.key
+                    })
+                )
                 setLoading(false);
+                return navigate('/profile');
             })
             .catch((err) => {
                 console.log(err);

@@ -1,12 +1,26 @@
 import './Login.css';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import authSlice from "../../store/slices/auth";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const token = useSelector((state) => state.auth.token);
+
+    useEffect(()=>{
+        if (token !== null) {
+            return navigate('/profile');
+        }
+    }, [token]);
 
     const handleLogin = (username, email, password) => {
         const data = {
@@ -16,8 +30,14 @@ const Login = () => {
         };
         axios.post('http://localhost:8000/api/v1/dj-rest-auth/login/', data)
             .then((res) => {
-                console.log(res);
+                console.log(res.data);
+                dispatch(
+                    authSlice.actions.setAuthToken({
+                        token: res.data.key,
+                    })
+                );
                 setLoading(false);
+                return navigate("/profile");
             })
             .catch((err) => {
                 console.log(err);
