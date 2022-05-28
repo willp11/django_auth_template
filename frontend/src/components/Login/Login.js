@@ -6,6 +6,7 @@ import axios from 'axios';
 import authSlice from "../../store/slices/auth";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import Navigation from '../Navigation/Navigation';
 
 const Login = () => {
     const [message, setMessage] = useState("");
@@ -20,7 +21,7 @@ const Login = () => {
         if (token !== null) {
             return navigate('/profile');
         }
-    }, [token]);
+    }, [token, navigate]);
 
     const handleLogin = (username, email, password) => {
         const data = {
@@ -64,6 +65,7 @@ const Login = () => {
 
     return (
         <div className="Login">
+            <Navigation />
             <h1>Login</h1>
             <form onSubmit={formik.handleSubmit}>
                 <div>

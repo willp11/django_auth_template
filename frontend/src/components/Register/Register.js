@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import authSlice from "../../store/slices/auth";
+import Navigation from '../Navigation/Navigation';
 
 const Register = () => {
 
@@ -21,7 +22,7 @@ const Register = () => {
         if (token !== null) {
             return navigate('/profile');
         }
-    }, [token]);
+    }, [token, navigate]);
 
     const handleRegister = (username, email, password, passwordConfirmation) => {
         const data = {
@@ -67,6 +68,7 @@ const Register = () => {
 
     return (
         <div className="Register">
+            <Navigation />
             <h1>Create Account</h1>
             <form onSubmit={formik.handleSubmit}>
                 <div>

@@ -14,7 +14,6 @@ const authSlice = createSlice({
     },
     logout(state) {
       state.account = null;
-      state.refreshToken = null;
       state.token = null;
     },
   },
